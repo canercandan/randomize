@@ -33,13 +33,7 @@ namespace randomize
 	namespace boxmuller
 	{
 	    template < typename Atom >
-	    __device__ inline void BoxMuller( Atom& u1, Atom& u2 )
-	    {
-		Atom r = sqrtf(-2.0f * logf(u1));
-		Atom phi = 2 * PI * u2;
-		u1 = r * __cosf(phi);
-		u2 = r * __sinf(phi);
-	    }
+	    __device__ inline void BoxMuller( Atom& u1, Atom& u2 );
 
 	    template < typename Atom >
 	    __global__ void kernel( Atom *data, int size )
@@ -50,6 +44,24 @@ namespace randomize
 			BoxMuller(data[tid + (i + 0) * RNG_COUNT],
 				  data[tid + (i + 1) * RNG_COUNT]);
 		    }
+	    }
+
+	    template <>
+	    __device__ inline void BoxMuller( float& u1, float& u2 )
+	    {
+		float r = sqrtf(-2.0f * logf(u1));
+		float phi = 2 * PI * u2;
+		u1 = r * __cosf(phi);
+		u2 = r * __sinf(phi);
+	    }
+
+	    template <>
+	    __device__ inline void BoxMuller( double& u1, double& u2 )
+	    {
+		double r = sqrt(-2.0f * logf(u1));
+		double phi = 2 * PI * u2;
+		u1 = r * cos(phi);
+		u2 = r * cos(phi);
 	    }
 	}
     }
