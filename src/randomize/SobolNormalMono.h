@@ -29,11 +29,20 @@ namespace randomize
     class SobolNormalMono : public Sobol< NormalMono< Atom > >
     {
     public:
-	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
-	{
-	    curandGenerateNormal(this->_gen, data, data.size(), distrib.mean(), distrib.variance());
-	}
+	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data );
     };
+
+    template <>
+    void SobolNormalMono< float >::operator()( const NormalMono< float >& distrib, Data< float >& data )
+    {
+	CURAND_CALL( curandGenerateNormal(this->_gen, data, data.size(), distrib.mean(), distrib.variance()) );
+    }
+
+    template <>
+    void SobolNormalMono< double >::operator()( const NormalMono< double >& distrib, Data< double >& data )
+    {
+	CURAND_CALL( curandGenerateNormalDouble(this->_gen, data, data.size(), distrib.mean(), distrib.variance()) );
+    }
 }
 
 #endif // !_randomize_SobolNormalMono_h

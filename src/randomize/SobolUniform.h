@@ -17,34 +17,32 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_XorshiftUniform_h
-#define _randomize_XorshiftUniform_h
+#ifndef _randomize_SobolUniform_h
+#define _randomize_SobolUniform_h
 
-#include "Xorshift.h"
+#include "Sobol.h"
 #include "Uniform.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class XorshiftUniform : public Xorshift< Uniform< Atom > >
+    class SobolUniform : public Sobol< Uniform< Atom > >
     {
     public:
-	XorshiftUniform( unsigned long long seed = 0 ) : Xorshift< Uniform< Atom > >( seed ) {}
-
 	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data );
     };
 
     template <>
-    void XorshiftUniform< float >::operator()( const Uniform< float >& distrib, Data< float >& data )
+    void SobolUniform< float >::operator()( const Uniform< float >& distrib, Data< float >& data )
     {
 	CURAND_CALL( curandGenerateUniform(this->_gen, data, data.size()) );
     }
 
     template <>
-    void XorshiftUniform< double >::operator()( const Uniform< double >& distrib, Data< double >& data )
+    void SobolUniform< double >::operator()( const Uniform< double >& distrib, Data< double >& data )
     {
 	CURAND_CALL( curandGenerateUniformDouble(this->_gen, data, data.size()) );
     }
 }
 
-#endif // !_randomize_XorshiftUniform_h
+#endif // !_randomize_SobolUniform_h

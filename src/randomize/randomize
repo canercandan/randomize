@@ -36,11 +36,13 @@
 // #include "MTNormalMono.h"
 
 #include "Xorshift.h"
+#include "XorshiftUniform.h"
 #include "XorshiftNormalMono.h"
 
 #include "QRNG.h"
 
 #include "Sobol.h"
+#include "SobolUniform.h"
 #include "SobolNormalMono.h"
 
 #include "Sampler.h"

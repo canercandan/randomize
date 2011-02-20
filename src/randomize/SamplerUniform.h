@@ -37,7 +37,7 @@ namespace randomize
 	}
 
     private:
-	RNG< NormalMono< Atom > >& _rng;
+	RNG< Uniform< Atom > >& _rng;
     };
 }
 

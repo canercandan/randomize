@@ -23,6 +23,7 @@ using namespace core_library;
 using namespace randomize;
 
 typedef float Atom;
+//typedef double Atom;
 
 int main(void)
 {
@@ -34,6 +35,8 @@ int main(void)
     //XorshiftNormalMono< Atom > rng( time(NULL) );
     XorshiftNormalMono< Atom > rng;
     //XorshiftUniform< Atom > rng;
+    //SobolNormalMono< Atom > rng;
+    //SobolUniform< Atom > rng;
 
     SamplerNormalMono< Atom > sampler( rng );
     //SamplerUniform< Atom > sampler( rng );
