@@ -4,10 +4,9 @@
 ##
 ###############################################################################
 
-INCLUDE(${CMAKE_MODULE_PATH}/UseCUDA.cmake)
-
 SET(SOURCES
   t-docexample
+  t-sampler
   )
 
 FOREACH(current ${SOURCES})

@@ -9,12 +9,6 @@
 #include <cuda.h>
 #include <curand.h>
 
-class RNG {};
-
-class QRNG : public RNG {};
-
-class PRNG : public PRNG {};
-
 #define CUDA_CALL(x) do { if((x) != cudaSuccess) {	\
 	    printf("Error at %s:%d\n",__FILE__,__LINE__);	\
 	    return EXIT_FAILURE;}} while(0)
