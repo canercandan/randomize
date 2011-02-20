@@ -29,27 +29,28 @@ int main(void)
     NormalMono< Atom > distribution( 10, 10 );
     //Uniform< Atom > distribution( 10, 10 );
 
-    // MTNormalMono< Atom > rng;
-    // //MTUniform< Atom > rng;
-    // //XorshiftNormalMono< Atom > rng;
-    // //XorshiftUniform< Atom > rng;
+    //MTNormalMono< Atom > rng;
+    //MTUniform< Atom > rng;
+    XorshiftNormalMono< Atom > rng;
+    //XorshiftUniform< Atom > rng;
 
-    // SamplerNormalMono< Atom > sampler( rng );
-    // //SamplerUniform< Atom > sampler( rng );
+    SamplerNormalMono< Atom > sampler( rng );
+    //SamplerUniform< Atom > sampler( rng );
 
-    // // Only for normal distribution samples:
-    // ErfInv< Atom > inverse;
-    // //BoxMuller< Atom > inverse;
-    // //Marsaglia< Atom > inverse;
+    /// Only for normal distribution samples
+    //ErfInv< Atom > inverse;
+    BoxMuller< Atom > inverse;
+    //Marsaglia< Atom > inverse;
 
-    // Vector< Atom > sample( 100 );
-    // //Matrix< Atom > sample( 100, 100 );
-    // //Data< Atom > sample;
+    Vector< Atom > sample( 10, 0.5 );
+    //Matrix< Atom > sample( 100, 100 );
+    //Data< Atom > sample;
 
-    // sampler( distribution, sample );
-    // inverse( sample );
-
-    // logger << sample << std::endl;
+    logger << sample << std::endl;
+    sampler( distribution, sample );
+    logger << sample << std::endl;
+    inverse( sample );
+    logger << sample << std::endl;
 
     return 0;
 }

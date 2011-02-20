@@ -21,16 +21,12 @@
 #define _randomize_InverseCumulativeNormal_h
 
 #include "Inverse.h"
-#include "Normal.h"
+#include "NormalMono.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class InverseCumulativeNormal : public Inverse< Normal >
-    {
-    public:
-	//void operator()( const Normal&, Data< Atom >& );
-    };
+    class InverseCumulativeNormal : public Inverse< NormalMono< Atom > > {};
 }
 
 #endif // !_randomize_InverseCumulativeNormal_h

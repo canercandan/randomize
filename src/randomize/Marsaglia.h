@@ -17,28 +17,22 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_SamplerUniform_h
-#define _randomize_SamplerUniform_h
+#ifndef _randomize_Marsaglia_h
+#define _randomize_Marsaglia_h
 
-#include "Sampler.h"
-#include "Uniform.h"
+#include "InverseCumulativeNormal.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class SamplerUniform : public Sampler< Uniform< Atom > >
+    class Marsaglia : public InverseCumulativeNormal< Atom >
     {
     public:
-	SamplerUniform( RNG< Uniform< Atom > >& rng ) : _rng(rng) {}
-
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data )
+	void operator()( Data< Atom >& data )
 	{
-	    _rng( distrib, data );
+	    // TODO
 	}
-
-    private:
-	RNG< NormalMono< Atom > >& _rng;
     };
 }
 
-#endif // !_randomize_SamplerUniform_h
+#endif // !_randomize_Marsaglia_h

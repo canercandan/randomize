@@ -17,28 +17,4 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_SamplerUniform_h
-#define _randomize_SamplerUniform_h
-
-#include "Sampler.h"
-#include "Uniform.h"
-
-namespace randomize
-{
-    template < typename Atom >
-    class SamplerUniform : public Sampler< Uniform< Atom > >
-    {
-    public:
-	SamplerUniform( RNG< Uniform< Atom > >& rng ) : _rng(rng) {}
-
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data )
-	{
-	    _rng( distrib, data );
-	}
-
-    private:
-	RNG< NormalMono< Atom > >& _rng;
-    };
-}
-
-#endif // !_randomize_SamplerUniform_h
+#include "kernel"

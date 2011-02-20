@@ -22,6 +22,7 @@
 
 #include "Sampler.h"
 #include "NormalMono.h"
+#include "RNG.h"
 
 namespace randomize
 {
@@ -29,10 +30,15 @@ namespace randomize
     class SamplerNormalMono : public Sampler< NormalMono< Atom > >
     {
     public:
-	void operator()( const NormalMono< Atom >&, Data< Atom >& )
+	SamplerNormalMono( RNG< NormalMono< Atom > >& rng ) : _rng(rng) {}
+
+	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
 	{
-	    // TODO
+	    _rng( distrib, data );
 	}
+
+    private:
+	RNG< NormalMono< Atom > >& _rng;
     };
 }
 

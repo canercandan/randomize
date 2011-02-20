@@ -26,6 +26,7 @@
 #include <cuda.h>
 
 #include <core_library/Object.h>
+#include <core_library/Printable.h>
 #include <core_library/Logger.h>
 
 #define CUDA_CALL(x)							\
@@ -44,7 +45,7 @@
 namespace randomize
 {
     template < typename Atom >
-    class Data : public core_library::Object
+    class Data : public core_library::Object, public core_library::Printable
     {
     public:
 	Data() : _deviceData(NULL), _size(0) {}
@@ -135,7 +136,7 @@ namespace randomize
 	int _size;
 
     public:
-	/// Here's some high level cublas routines in static
+	/// Here's some high level cuda routines in static
 
 	static void createDeviceData(Atom*& deviceData, int n)
 	{
@@ -144,7 +145,7 @@ namespace randomize
 
 	static void destroyDeviceData(Atom*& deviceData)
 	{
-	    CUDA_CALL( cublasFree(deviceData) );
+	    CUDA_CALL( cudaFree(deviceData) );
 	    deviceData = NULL;
 	}
 

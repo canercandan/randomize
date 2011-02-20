@@ -16,44 +16,12 @@
  * Authors: Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_
-#define _randomize_
+#ifndef _randomize_kernel_
+#define _randomize_kernel_
 
-#include <core_library/core_library>
+#include "boxmuller.h"
 
-#include "Vector.h"
-#include "Matrix.h"
-
-#include "Distrib.h"
-#include "Uniform.h"
-#include "NormalMono.h"
-
-#include "RNG.h"
-
-#include "PRNG.h"
-
-// #include "MT.h"
-// #include "MTNormalMono.h"
-
-#include "Xorshift.h"
-#include "XorshiftNormalMono.h"
-
-#include "QRNG.h"
-
-// #include "Sobol.h"
-// #include "SobolNormalMono.h"
-
-#include "Sampler.h"
-#include "SamplerUniform.h"
-#include "SamplerNormalMono.h"
-
-#include "Inverse.h"
-#include "InverseCumulativeNormal.h"
-#include "ErfInv.h"
-#include "BoxMuller.h"
-#include "Marsaglia.h"
-
-#endif // !_randomize_
+#endif // !_randomize_kernel_
 
 // Local Variables:
 // mode: C++

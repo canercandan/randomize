@@ -17,28 +17,42 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_SamplerUniform_h
-#define _randomize_SamplerUniform_h
+#ifndef _randomize_kernel_boxmuller_h
+#define _randomize_kernel_boxmuller_h
 
-#include "Sampler.h"
-#include "Uniform.h"
+#undef PI
+#define PI 3.14159265358979f
+
+#undef RNG_COUNT
+#define RNG_COUNT 4096
 
 namespace randomize
 {
-    template < typename Atom >
-    class SamplerUniform : public Sampler< Uniform< Atom > >
+    namespace kernel
     {
-    public:
-	SamplerUniform( RNG< Uniform< Atom > >& rng ) : _rng(rng) {}
-
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data )
+	namespace boxmuller
 	{
-	    _rng( distrib, data );
-	}
+	    template < typename Atom >
+	    __device__ inline void BoxMuller( Atom& u1, Atom& u2 )
+	    {
+		Atom r = sqrtf(-2.0f * logf(u1));
+		Atom phi = 2 * PI * u2;
+		u1 = r * __cosf(phi);
+		u2 = r * __sinf(phi);
+	    }
 
-    private:
-	RNG< NormalMono< Atom > >& _rng;
-    };
+	    template < typename Atom >
+	    __global__ void kernel( Atom *data, int size )
+	    {
+		const int tid = blockDim.x * blockIdx.x + threadIdx.x;
+		for ( int i = 0; i < size; i += 2 )
+		    {
+			BoxMuller(data[tid + (i + 0) * RNG_COUNT],
+				  data[tid + (i + 1) * RNG_COUNT]);
+		    }
+	    }
+	}
+    }
 }
 
-#endif // !_randomize_SamplerUniform_h
+#endif // !_randomize_kernel_boxmuller_h

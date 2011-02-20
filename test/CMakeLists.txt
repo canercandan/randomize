@@ -4,6 +4,8 @@
 ##
 ###############################################################################
 
+#LINK_LIBRARIES(${PROJECT_NAME} ${PROJECT_NAME}_kernel)
+
 SET(SOURCES
   t-docexample
   t-sampler
