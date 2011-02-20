@@ -25,7 +25,11 @@
 namespace randomize
 {
     template < typename D >
-    class Xorshift : public PRNG< D > {};
+    class Xorshift : public PRNG< D >
+    {
+    public:
+	Xorshift( unsigned long long seed = 0 ) : PRNG< D >( CURAND_RNG_PSEUDO_XORWOW, seed ) {}
+    };
 }
 
 #endif // !_randomize_Xorshift_h

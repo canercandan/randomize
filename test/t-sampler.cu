@@ -31,6 +31,7 @@ int main(void)
 
     //MTNormalMono< Atom > rng;
     //MTUniform< Atom > rng;
+    //XorshiftNormalMono< Atom > rng( time(NULL) );
     XorshiftNormalMono< Atom > rng;
     //XorshiftUniform< Atom > rng;
 
@@ -39,18 +40,19 @@ int main(void)
 
     /// Only for normal distribution samples
     //ErfInv< Atom > inverse;
-    BoxMuller< Atom > inverse;
+    // BoxMuller< Atom > inverse;
     //Marsaglia< Atom > inverse;
 
-    Vector< Atom > sample( 10, 0.5 );
+    //Vector< Atom > sample;
+    Vector< Atom > sample( 1 << 2 );
     //Matrix< Atom > sample( 100, 100 );
     //Data< Atom > sample;
 
-    logger << sample << std::endl;
+    // logger << sample << std::endl;
     sampler( distribution, sample );
     logger << sample << std::endl;
-    inverse( sample );
-    logger << sample << std::endl;
+    // inverse( sample );
+    // logger << sample << std::endl;
 
     return 0;
 }

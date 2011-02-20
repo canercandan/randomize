@@ -40,8 +40,8 @@
 
 #include "QRNG.h"
 
-// #include "Sobol.h"
-// #include "SobolNormalMono.h"
+#include "Sobol.h"
+#include "SobolNormalMono.h"
 
 #include "Sampler.h"
 #include "SamplerUniform.h"

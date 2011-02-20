@@ -29,9 +29,11 @@ namespace randomize
     class XorshiftNormalMono : public Xorshift< NormalMono< Atom > >
     {
     public:
+	XorshiftNormalMono( unsigned long long seed = 0 ) : Xorshift< NormalMono< Atom > >( seed ) {}
+
 	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
 	{
-	    // TODO
+	    curandGenerateNormal(this->_gen, data, data.size(), distrib.mean(), distrib.variance());
 	}
     };
 }

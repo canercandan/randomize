@@ -30,12 +30,19 @@ namespace randomize
     class BoxMuller : public InverseCumulativeNormal< Atom >
     {
     public:
+	BoxMuller( int nblocks = 32, int nthreads = 128 ) : _nblocks(nblocks), _nthreads(nthreads) {}
+
 	void operator()( Data< Atom >& data )
 	{
-	    const int size = iAlignUp( iDivUp( data.size(), RNG_COUNT ), 2 );
-	    kernel::boxmuller::kernel< Atom ><<<32, 128>>>( data, size );
+	    const int size = iAlignUp( iDivUp( data.size(), _nblocks*_nthreads ), 2 );
+	    kernel::boxmuller::kernel< Atom ><<<_nblocks, _nthreads>>>( data, size );
 	}
 
+    private:
+	int _nblocks;
+	int _nthreads;
+
+    public:
 	//ceil(a / b)
 	static inline int iDivUp(int a, int b)
 	{

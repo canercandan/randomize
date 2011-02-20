@@ -33,13 +33,14 @@ int main(int argc, char *argv[])
     CUDA_CALL(cudaMalloc((void **)&devData, n * sizeof(float)));
 
     /* Create pseudo-random number generator */
-    // CURAND_CALL(curandCreateGenerator(&gen,
-    // 				      CURAND_RNG_PSEUDO_DEFAULT));
     CURAND_CALL(curandCreateGenerator(&gen,
-    				      CURAND_RNG_QUASI_SOBOL32));
+    				      CURAND_RNG_PSEUDO_DEFAULT));
+    // CURAND_CALL(curandCreateGenerator(&gen,
+    // 				      CURAND_RNG_QUASI_SOBOL32));
 
     /* Set seed */
-    // CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, 1234ULL));
+    CURAND_CALL(curandSetPseudoRandomGeneratorSeed(gen, 1234ULL));
+    //CURAND_CALL(curandGenerateSeeds(gen));
 
     /* Generate n floats on device */
     CURAND_CALL(curandGenerateUniform(gen, devData, n));

@@ -20,6 +20,8 @@
 #ifndef _randomize_PRNG_h
 #define _randomize_PRNG_h
 
+#include <ctime>
+
 #include <core_library/UO.h>
 
 #include "RNG.h"
@@ -30,7 +32,19 @@ namespace randomize
     class PRNG : public RNG< D >
     {
     public:
-	//virtual void reseed( int seed ) = 0;
+	PRNG( curandRngType_t rng_type, unsigned long long seed = 0 ) : RNG< D >( rng_type ), _seed( seed )
+	{
+	    reseed( _seed ? _seed : time(NULL) );
+	}
+
+	void reseed( unsigned long long seed )
+	{
+	    _seed = seed;
+	    CURAND_CALL(curandSetPseudoRandomGeneratorSeed(this->_gen, _seed));
+	}
+
+    private:
+	unsigned long long _seed;
     };
 }
 

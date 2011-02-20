@@ -17,22 +17,23 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_QRNG_h
-#define _randomize_QRNG_h
+#ifndef _randomize_SobolNormalMono_h
+#define _randomize_SobolNormalMono_h
 
-#include <core_library/UO.h>
-
-#include "RNG.h"
+#include "Sobol.h"
+#include "NormalMono.h"
 
 namespace randomize
 {
-    template < typename D >
-    class QRNG : public RNG< D >
+    template < typename Atom >
+    class SobolNormalMono : public Sobol< NormalMono< Atom > >
     {
     public:
-	QRNG( curandRngType_t rng_type ) : RNG< D >( rng_type ) {}
-	//virtual void dimension( int dim ) = 0;
+	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
+	{
+	    curandGenerateNormal(this->_gen, data, data.size(), distrib.mean(), distrib.variance());
+	}
     };
 }
 
-#endif // !_randomize_QRNG_h
+#endif // !_randomize_SobolNormalMono_h

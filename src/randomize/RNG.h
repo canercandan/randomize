@@ -20,9 +20,25 @@
 #ifndef _randomize_RNG_h
 #define _randomize_RNG_h
 
+#include <curand.h>
+
 #include <core_library/UO.h>
+#include <core_library/Logger.h>
 
 #include "Data.h"
+
+#define CURAND_CALL(x)							\
+    do									\
+	{								\
+	    if ( (x) != CURAND_STATUS_SUCCESS )				\
+		{							\
+		    core_library::logger << core_library::errors	\
+					 << "Error at " << __FILE__	\
+					 << ":" << __LINE__ << std::endl; \
+		    throw std::runtime_error("");			\
+		}							\
+	}								\
+    while(0)
 
 namespace randomize
 {
@@ -31,6 +47,19 @@ namespace randomize
     {
     public:
 	typedef typename D::AtomType Atom;
+
+	RNG( curandRngType_t rng_type )
+	{
+	    CURAND_CALL( curandCreateGenerator(&_gen, rng_type) );
+	}
+
+	~RNG()
+	{
+	    CURAND_CALL( curandDestroyGenerator(_gen) );
+	}
+
+    protected:
+	curandGenerator_t _gen;
     };
 }
 

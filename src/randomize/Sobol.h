@@ -17,22 +17,19 @@
  * Caner Candan <caner@candan.fr>, http://caner.candan.fr
  */
 
-#ifndef _randomize_QRNG_h
-#define _randomize_QRNG_h
+#ifndef _randomize_Sobol_h
+#define _randomize_Sobol_h
 
-#include <core_library/UO.h>
-
-#include "RNG.h"
+#include "PRNG.h"
 
 namespace randomize
 {
     template < typename D >
-    class QRNG : public RNG< D >
+    class Sobol : public QRNG< D >
     {
     public:
-	QRNG( curandRngType_t rng_type ) : RNG< D >( rng_type ) {}
-	//virtual void dimension( int dim ) = 0;
+	Sobol() : QRNG< D >( CURAND_RNG_QUASI_SOBOL32 ) {}
     };
 }
 
-#endif // !_randomize_QRNG_h
+#endif // !_randomize_Sobol_h
