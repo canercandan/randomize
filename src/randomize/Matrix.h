@@ -19,154 +19,55 @@
 #ifndef _randomize_Matrix_h
 #define _randomize_Matrix_h
 
-#include <cstdlib>
-#include <stdexcept>
-
-#include <cuda.h>
+#include "Data.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class Matrix
+    class Matrix : public Data< Atom >
     {
+	using Data< Atom >::_deviceData;
+	using Data< Atom >::_size;
+
     public:
-	Matrix() : _deviceMatrix(NULL), _n(0), _m(0) {}
-
-	Matrix(int n) : _deviceMatrix(NULL), _n(n), _m(n)
-	{
-	    createDeviceMatrix(_deviceMatrix, _n, _m);
-	}
-
-	Matrix(int n, int m) : _deviceMatrix(NULL), _n(n), _m(m)
-	{
-	    createDeviceMatrix(_deviceMatrix, _n, _m);
-	}
-
-	Matrix(int n, int m, Atom value) : _deviceMatrix(NULL), _n(n), _m(m)
-	{
-	    Atom* hostMatrix;
-	    createHostMatrix(hostMatrix, _n, _m);
-	    fillHostMatrix(hostMatrix, _n, _m, value);
-	    createDeviceMatrix(_deviceMatrix, _n, _m);
-	    memcpyHostToDevice(hostMatrix, _deviceMatrix, _n, _m);
-	    destroyHostMatrix(hostMatrix);
-	}
-
-	~Matrix()
-	{
-	    destroyDeviceMatrix(_deviceMatrix);
-	}
-
-	Matrix& operator=( Atom*& m )
-	{
-	    memcpyHostToDevice(m, _deviceMatrix, _n, _m);
-	    return *this;
-	}
+	Matrix() {}
+	Matrix(int n) : Data< Atom >(n*n), _n(n), _m(n) {}
+	Matrix(int n, Atom value) : Data< Atom >(n*n, value), _n(n), _m(n) {}
+	Matrix(int n, int m, Atom value) : Data< Atom >(n*m, value), _n(n), _m(m) {}
 
 	std::string className() const { return "Matrix"; }
 
 	virtual void printOn(std::ostream& _os) const
 	{
-	    if ( !_deviceMatrix ) { return; }
-	    if ( _n <= 0 ) { return; }
-	    if ( _m <= 0 ) { return; }
+	    if ( !_deviceData ) { return; }
+	    if ( _size <= 0 ) { return; }
 
-	    Atom* hostMatrix;
-	    createHostMatrix( hostMatrix, _n, _m );
+	    Atom* hostData;
+	    createHostData( hostData, _size );
 
-	    CUDA_CALL( cudaMemcpy(hostMatrix, _deviceMatrix, _n*sizeof(*hostMatrix), cudaMemcpyDeviceToHost) );
+	    CUDA_CALL( cudaMemcpy(hostData, _deviceData, _size*sizeof(*hostData), cudaMemcpyDeviceToHost) );
 
 	    for ( int i = 0; i < _n; ++i )
 		{
-		    _os << "[" << *(hostMatrix + i*_n);
+		    _os << "[" << *(hostData + i*_n);
 		    for ( int j = 0; j < _m; ++j )
 			{
-			    _os << ", " << *(hostMatrix + i*_n + j);
+			    _os << ", " << *(hostData + i*_n + j);
 			}
-		    _os << "]" << std::endl;;
+		    _os << "]" << std::endl;
 		}
 
-	    destroyHostMatrix(hostMatrix);
-	}
-
-	operator Atom*() const
-	{
-	    if ( !_deviceMatrix )
-		{
-		    throw std::runtime_error("deviceMatrix is not allocated on GPU memory");
-		}
-	    return _deviceMatrix;
+	    destroyHostData(hostData);
 	}
 
 	inline int rows() const { return _n; }
 	inline int cols() const { return _m; }
 
-	void resize(int n, int m)
-	{
-	    if ( _deviceMatrix )
-		{
-		    destroyDeviceMatrix( _deviceMatrix );
-		}
-
-	    _n = n;
-	    _m = m;
-	    createDeviceMatrix(_deviceMatrix, _n, _m);
-	}
+	void resize(int n, int m) { Data< Atom >::resize(n*m); }
 
     private:
-	Atom* _deviceMatrix;
 	int _n;
 	int _m;
-
-    public:
-	/// Here's some high level cublas routines in static
-
-	static void createDeviceMatrix(Atom*& deviceMatrix, int n, int m)
-	{
-	    CUDA_CALL( cudaMalloc(n*m, sizeof(*deviceMatrix), (void**)&deviceMatrix) );
-	}
-
-	static void destroyDeviceMatrix(Atom*& deviceMatrix)
-	{
-	    CUDA_CALL( cublasFree(deviceMatrix) );
-	    deviceMatrix = NULL;
-	}
-
-	static void createHostMatrix(Atom*& hostMatrix, int n, int m)
-	{
-	    hostMatrix = (Atom*)malloc(n*m*sizeof(*hostMatrix));
-	    if ( hostMatrix == NULL )
-		{
-		    throw std::runtime_error("out of memory");
-		}
-	}
-
-	static void destroyHostMatrix(Atom*& hostMatrix)
-	{
-	    free(hostMatrix);
-	    hostMatrix = NULL;
-	}
-
-	static void fillHostMatrix(Atom*& hostMatrix, int n, int m, Atom value)
-	{
-	    for (int j = 0; j < n; ++j)
-		{
-		    for (int i = 0; i < m; ++i)
-			{
-			    *(hostMatrix + i + j) = value;
-			}
-		}
-	}
-
-	static void memcpyHostToDevice(Atom*& hostMatrix, Atom*& deviceMatrix, int n, int m)
-	{
-	    CUDA_CALL( cudaMemcpy(deviceMatrix, hostMatrix, n*m*sizeof(*deviceMatrix), cudaMemcpyHostToDevice) );
-	}
-
-	static void memcpyDeviceToHost(Atom*& deviceMatrix, Atom*& hostMatrix, int n, int m)
-	{
-	    CUDA_CALL( cudaMemcpy(hostMatrix, deviceMatrix, n*m*sizeof(*hostMatrix), cudaMemcpyDeviceToHost) );
-	}
     };
 }
 
