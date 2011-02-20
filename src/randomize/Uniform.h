@@ -25,17 +25,21 @@ Authors:
 #define _randomize_Uniform_h
 
 #include "Distrib.h"
-#include "VectorBounds.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class Uniform : public Distrib< Atom >, public VectorBounds< Atom >
+    class Uniform : public Distrib< Atom >
     {
     public:
-	Uniform(Atom min, Atom max)
-	    : VectorBounds< Atom >(min, max)
-	{}
+	Uniform(Atom min, Atom max) : _min(min), _max(max) {}
+
+	Atom min() const { return _min; }
+	Atom max() const { return _max; }
+
+    private:
+	Atom _min;
+	Atom _max;
     };
 }
 

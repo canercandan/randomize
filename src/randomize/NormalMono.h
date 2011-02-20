@@ -24,6 +24,8 @@ Authors:
 #ifndef _randomize_NormalMono_h
 #define _randomize_NormalMono_h
 
+#include <cassert>
+
 #include "Distrib.h"
 
 namespace randomize
@@ -32,21 +34,10 @@ namespace randomize
     class NormalMono : public Distrib< Atom >
     {
     public:
-	NormalMono( const Atom& mean, const Atom& variance )
-	    : _mean(mean), _variance(variance)
-	{
-	    assert(_mean.size() > 0);
-	    assert(_mean.size() == _variance.size());
-	}
+	NormalMono( const Atom& mean, const Atom& variance ) : _mean(mean), _variance(variance) {}
 
-	unsigned int size()
-	{
-	    assert(_mean.size() == _variance.size());
-	    return _mean.size();
-	}
-
-	Atom mean(){return _mean;}
-	Atom variance(){return _variance;}
+	Atom mean() const { return _mean; }
+	Atom variance() const { return _variance; }
 
     private:
 	Atom _mean;
