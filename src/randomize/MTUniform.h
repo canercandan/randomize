@@ -29,7 +29,7 @@ namespace randomize
     class MTUniform : public MT< Uniform< Atom > >
     {
     public:
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data )
+	void operator()( const Uniform< Atom >& distrib, Array< Atom >& data )
 	{
 	    // TODO
 	}

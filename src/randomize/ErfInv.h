@@ -28,7 +28,7 @@ namespace randomize
     class ErfInv : public InverseCumulativeNormal< Atom >
     {
     public:
-	void operator()( Data< Atom >& data )
+	void operator()( Array< Atom >& data )
 	{
 	    // TODO
 	}

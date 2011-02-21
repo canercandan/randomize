@@ -32,7 +32,7 @@ namespace randomize
     public:
 	SamplerNormalMono( RNG< NormalMono< Atom > >& rng ) : _rng(rng) {}
 
-	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
+	void operator()( const NormalMono< Atom >& distrib, Array< Atom >& data )
 	{
 	    _rng( distrib, data );
 	}

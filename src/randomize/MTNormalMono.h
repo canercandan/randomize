@@ -29,7 +29,7 @@ namespace randomize
     class MTNormalMono : public MT< NormalMono< Atom > >
     {
     public:
-	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data )
+	void operator()( const NormalMono< Atom >& distrib, Array< Atom >& data )
 	{
 	    // TODO
 	}

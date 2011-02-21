@@ -29,17 +29,17 @@ namespace randomize
     class SobolUniform : public Sobol< Uniform< Atom > >
     {
     public:
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data );
+	void operator()( const Uniform< Atom >& distrib, Array< Atom >& data );
     };
 
     template <>
-    void SobolUniform< float >::operator()( const Uniform< float >& distrib, Data< float >& data )
+    void SobolUniform< float >::operator()( const Uniform< float >& distrib, Array< float >& data )
     {
 	CURAND_CALL( curandGenerateUniform(this->_gen, data, data.size()) );
     }
 
     template <>
-    void SobolUniform< double >::operator()( const Uniform< double >& distrib, Data< double >& data )
+    void SobolUniform< double >::operator()( const Uniform< double >& distrib, Array< double >& data )
     {
 	CURAND_CALL( curandGenerateUniformDouble(this->_gen, data, data.size()) );
     }

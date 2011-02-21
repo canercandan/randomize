@@ -22,12 +22,12 @@
 
 #include <core_library/FO.h>
 
-#include "Data.h"
+#include "Array.h"
 
 namespace randomize
 {
     template < typename D >
-    class Inverse : public core_library::FO< Data< typename D::AtomType > >
+    class Inverse : public core_library::FO< Array< typename D::AtomType > >
     {
     public:
 	typedef typename D::AtomType Atom;

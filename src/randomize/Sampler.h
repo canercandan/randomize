@@ -22,12 +22,12 @@
 
 #include <core_library/UO.h>
 
-#include "Data.h"
+#include "Array.h"
 
 namespace randomize
 {
     template < typename D >
-    class Sampler : public core_library::UO< D, Data< typename D::AtomType > >
+    class Sampler : public core_library::UO< D, Array< typename D::AtomType > >
     {
     public:
 	typedef typename D::AtomType Atom;

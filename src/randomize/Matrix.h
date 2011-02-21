@@ -19,51 +19,51 @@
 #ifndef _randomize_Matrix_h
 #define _randomize_Matrix_h
 
-#include "Data.h"
+#include "Array.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class Matrix : public Data< Atom >
+    class Matrix : public Array< Atom >
     {
-	using Data< Atom >::_deviceData;
-	using Data< Atom >::_size;
+	using Array< Atom >::_deviceArray;
+	using Array< Atom >::_size;
 
     public:
 	Matrix() {}
-	Matrix(int n) : Data< Atom >(n*n), _n(n), _m(n) {}
-	Matrix(int n, Atom value) : Data< Atom >(n*n, value), _n(n), _m(n) {}
-	Matrix(int n, int m, Atom value) : Data< Atom >(n*m, value), _n(n), _m(m) {}
+	Matrix(int n) : Array< Atom >(n*n), _n(n), _m(n) {}
+	Matrix(int n, Atom value) : Array< Atom >(n*n, value), _n(n), _m(n) {}
+	Matrix(int n, int m, Atom value) : Array< Atom >(n*m, value), _n(n), _m(m) {}
 
 	std::string className() const { return "Matrix"; }
 
 	virtual void printOn(std::ostream& _os) const
 	{
-	    if ( !_deviceData ) { return; }
+	    if ( !_deviceArray ) { return; }
 	    if ( _size <= 0 ) { return; }
 
-	    Atom* hostData;
-	    createHostData( hostData, _size );
+	    Atom* hostArray;
+	    createHostArray( hostArray, _size );
 
-	    CUDA_CALL( cudaMemcpy(hostData, _deviceData, _size*sizeof(*hostData), cudaMemcpyDeviceToHost) );
+	    CUDA_CALL( cudaMemcpy(hostArray, _deviceArray, _size*sizeof(*hostArray), cudaMemcpyDeviceToHost) );
 
 	    for ( int i = 0; i < _n; ++i )
 		{
-		    _os << "[" << *(hostData + i*_n);
+		    _os << "[" << *(hostArray + i*_n);
 		    for ( int j = 0; j < _m; ++j )
 			{
-			    _os << ", " << *(hostData + i*_n + j);
+			    _os << ", " << *(hostArray + i*_n + j);
 			}
 		    _os << "]" << std::endl;
 		}
 
-	    destroyHostData(hostData);
+	    destroyHostArray(hostArray);
 	}
 
 	inline int rows() const { return _n; }
 	inline int cols() const { return _m; }
 
-	void resize(int n, int m) { Data< Atom >::resize(n*m); }
+	void resize(int n, int m) { Array< Atom >::resize(n*m); }
 
     private:
 	int _n;

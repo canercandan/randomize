@@ -31,7 +31,7 @@ namespace randomize
     public:
 	SamplerUniform( RNG< Uniform< Atom > >& rng ) : _rng(rng) {}
 
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data )
+	void operator()( const Uniform< Atom >& distrib, Array< Atom >& data )
 	{
 	    _rng( distrib, data );
 	}

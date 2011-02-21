@@ -25,7 +25,7 @@
 #include <core_library/UO.h>
 #include <core_library/Logger.h>
 
-#include "Data.h"
+#include "Array.h"
 
 #define CURAND_CALL(x)							\
     do									\
@@ -43,7 +43,7 @@
 namespace randomize
 {
     template < typename D >
-    class RNG : public core_library::UO< D, Data< typename D::AtomType > >
+    class RNG : public core_library::UO< D, Array< typename D::AtomType > >
     {
     public:
 	typedef typename D::AtomType Atom;

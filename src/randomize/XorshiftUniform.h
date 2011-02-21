@@ -31,17 +31,17 @@ namespace randomize
     public:
 	XorshiftUniform( unsigned long long seed = 0 ) : Xorshift< Uniform< Atom > >( seed ) {}
 
-	void operator()( const Uniform< Atom >& distrib, Data< Atom >& data );
+	void operator()( const Uniform< Atom >& distrib, Array< Atom >& data );
     };
 
     template <>
-    void XorshiftUniform< float >::operator()( const Uniform< float >& distrib, Data< float >& data )
+    void XorshiftUniform< float >::operator()( const Uniform< float >& distrib, Array< float >& data )
     {
 	CURAND_CALL( curandGenerateUniform(this->_gen, data, data.size()) );
     }
 
     template <>
-    void XorshiftUniform< double >::operator()( const Uniform< double >& distrib, Data< double >& data )
+    void XorshiftUniform< double >::operator()( const Uniform< double >& distrib, Array< double >& data )
     {
 	CURAND_CALL( curandGenerateUniformDouble(this->_gen, data, data.size()) );
     }

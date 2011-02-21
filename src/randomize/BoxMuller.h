@@ -32,10 +32,10 @@ namespace randomize
     public:
 	BoxMuller( int nblocks = 32, int nthreads = 128 ) : _nblocks(nblocks), _nthreads(nthreads) {}
 
-	void operator()( Data< Atom >& data )
+	void operator()( Array< Atom >& data )
 	{
-	    const int size = iAlignUp( iDivUp( data.size(), _nblocks*_nthreads ), 2 );
-	    kernel::boxmuller::kernel< Atom ><<<_nblocks, _nthreads>>>( data, size );
+	    //const int size = iAlignUp( iDivUp( data.size(), _nblocks*_nthreads ), 2 );
+	    kernel::boxmuller::kernel< Atom ><<<_nblocks, _nthreads>>>( data, data.size() );
 	}
 
     private:

@@ -31,17 +31,17 @@ namespace randomize
     public:
 	XorshiftNormalMono( unsigned long long seed = 0 ) : Xorshift< NormalMono< Atom > >( seed ) {}
 
-	void operator()( const NormalMono< Atom >& distrib, Data< Atom >& data );
+	void operator()( const NormalMono< Atom >& distrib, Array< Atom >& data );
     };
 
     template <>
-    void XorshiftNormalMono< float >::operator()( const NormalMono< float >& distrib, Data< float >& data )
+    void XorshiftNormalMono< float >::operator()( const NormalMono< float >& distrib, Array< float >& data )
     {
 	CURAND_CALL( curandGenerateNormal(this->_gen, data, data.size(), distrib.mean(), distrib.variance()) );
     }
 
     template <>
-    void XorshiftNormalMono< double >::operator()( const NormalMono< double >& distrib, Data< double >& data )
+    void XorshiftNormalMono< double >::operator()( const NormalMono< double >& distrib, Array< double >& data )
     {
 	CURAND_CALL( curandGenerateNormalDouble(this->_gen, data, data.size(), distrib.mean(), distrib.variance()) );
     }

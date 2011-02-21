@@ -35,15 +35,28 @@ namespace randomize
 	    template < typename Atom >
 	    __device__ inline void BoxMuller( Atom& u1, Atom& u2 );
 
+	    // template < typename Atom >
+	    // __global__ void kernel( Atom *data, int size )
+	    // {
+	    // 	const int tid = blockDim.x * blockIdx.x + threadIdx.x;
+
+	    // 	for ( int i = 0; i < size; i += 2 )
+	    // 	    {
+	    // 		BoxMuller(data[tid + (i + 0) * RNG_COUNT],
+	    // 			  data[tid + (i + 1) * RNG_COUNT]);
+	    // 	    }
+	    // }
+
 	    template < typename Atom >
 	    __global__ void kernel( Atom *data, int size )
 	    {
-		const int tid = blockDim.x * blockIdx.x + threadIdx.x;
-		for ( int i = 0; i < size; i += 2 )
-		    {
-			BoxMuller(data[tid + (i + 0) * RNG_COUNT],
-				  data[tid + (i + 1) * RNG_COUNT]);
-		    }
+		const int i = blockDim.x * blockIdx.x + threadIdx.x;
+
+		if ( i >= size ) { return; }
+
+		BoxMuller(data[i], data[i]);
+
+		__syncthreads();
 	    }
 
 	    template <>

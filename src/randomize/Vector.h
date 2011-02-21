@@ -19,17 +19,17 @@
 #ifndef _randomize_Vector_h
 #define _randomize_Vector_h
 
-#include "Data.h"
+#include "Array.h"
 
 namespace randomize
 {
     template < typename Atom >
-    class Vector : public Data< Atom >
+    class Vector : public Array< Atom >
     {
     public:
 	Vector() {}
-	Vector(int n) : Data< Atom >(n) {}
-	Vector(int n, Atom value) : Data< Atom >(n, value) {}
+	Vector(int n) : Array< Atom >(n) {}
+	Vector(int n, Atom value) : Array< Atom >(n, value) {}
 
 	std::string className() const { return "Vector"; }
     };

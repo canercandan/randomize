@@ -21,6 +21,7 @@
 
 #include <core_library/core_library>
 
+#include "Array.h"
 #include "Vector.h"
 #include "Matrix.h"
 
