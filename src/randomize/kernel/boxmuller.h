@@ -52,9 +52,15 @@ namespace randomize
 	    {
 		const int i = blockDim.x * blockIdx.x + threadIdx.x;
 
-		if ( i >= size ) { return; }
-
-		BoxMuller(data[i], data[i]);
+		if ( i < size )
+		    {
+			if ( (i % 2) == 0 ) // even
+			    {
+				// data[i] = 1;
+				// data[i+1] = 1;
+				BoxMuller(data[i], data[i+1]);
+			    }
+		    }
 
 		__syncthreads();
 	    }
@@ -71,7 +77,7 @@ namespace randomize
 	    template <>
 	    __device__ inline void BoxMuller( double& u1, double& u2 )
 	    {
-		double r = sqrt(-2.0f * logf(u1));
+		double r = sqrt(-2.0 * log(u1));
 		double phi = 2 * PI * u2;
 		u1 = r * cos(phi);
 		u2 = r * cos(phi);
