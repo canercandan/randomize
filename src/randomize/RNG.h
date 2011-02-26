@@ -25,20 +25,8 @@
 #include <core_library/UO.h>
 #include <core_library/Logger.h>
 
+#include "common.h"
 #include "Array.h"
-
-#define CURAND_CALL(x)							\
-    do									\
-	{								\
-	    if ( (x) != CURAND_STATUS_SUCCESS )				\
-		{							\
-		    core_library::logger << core_library::errors	\
-					 << "Error at " << __FILE__	\
-					 << ":" << __LINE__ << std::endl; \
-		    throw std::runtime_error("");			\
-		}							\
-	}								\
-    while(0)
 
 namespace randomize
 {

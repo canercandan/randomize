@@ -29,18 +29,7 @@
 #include <core_library/Printable.h>
 #include <core_library/Logger.h>
 
-#define CUDA_CALL(x)							\
-    do									\
-	{								\
-	    if ( (x) != cudaSuccess )					\
-		{							\
-		    core_library::logger << core_library::errors	\
-					 << "Error at " << __FILE__	\
-					 << ":" << __LINE__ << std::endl; \
-		    throw std::runtime_error("");			\
-		}							\
-	}								\
-    while(0)
+#include "common.h"
 
 namespace randomize
 {
